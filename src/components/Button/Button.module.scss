@@ -1,0 +1,27 @@
+.wrapper {
+    display: inline-flex;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family);
+    font-size: 1.6rem;
+    font-weight: 700;
+    background-color: #2f2739;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+}
+.primary {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.noneborder {
+    background-color: transparent;
+}
+.outline {
+    width: 100px;
+    height: 30px;
+    border-radius: 12px;
+    border: 1px solid #fff;
+}

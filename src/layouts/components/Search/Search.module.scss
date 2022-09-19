@@ -1,0 +1,37 @@
+.search {
+    width: 100%;
+    min-width: 340px;
+    max-width: 540px;
+    border-radius: 20px;
+    background-color: #ffffff1a;
+    height: var(--search-height);
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    input {
+        position: absolute;
+        top: 0;
+        left: 38px;
+        right: 10px;
+        bottom: 0;
+        height: 100%;
+        padding-right: 40px;
+        font-size: 1.4rem;
+        padding: 5px 0;
+        background-color: transparent;
+        flex: 1;
+        outline: none;
+        color: #eee;
+        line-height: 4rem;
+    }
+}
+
+.icon-search {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2rem;
+    color: #eee;
+}
