@@ -1,0 +1,25 @@
+.wrapper {
+    width: 100%;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+}
+
+.logo {
+    width: 240px;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    padding: 0 25px 0 28px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-image {
+    width: 120px;
+    height: 40px;
+}

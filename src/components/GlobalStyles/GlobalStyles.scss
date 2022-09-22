@@ -36,3 +36,26 @@ a {
     color: var(--text-color);
     text-decoration: none;
 }
+
+//Custom styles for Tippy
+
+body {
+    .tippy-box {
+        border-radius: 8px;
+        height: 24px;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        background-color: rgba(84, 84, 84, 0.92);
+        color: rgb(255, 255, 255);
+    }
+    .tippy-arrow {
+        color: rgba(84, 84, 84, 0.92);
+    }
+    .tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
+        top: -8px;
+    }
+    .tippy-content {
+        padding: 8px 8px;
+    }
+}
