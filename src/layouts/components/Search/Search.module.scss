@@ -38,10 +38,10 @@
 //Popper
 .search-popper {
     // width: 100%;
-    // min-width: 340px;
-    // max-width: 540px;
+    min-width: 340px;
+    max-width: 540px;
 
-    width: 540px;
+    width: calc(51vw - 134px);
     height: 220px;
     .search {
         background-color: var(--popperBg);

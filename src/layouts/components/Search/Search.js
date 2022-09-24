@@ -20,8 +20,8 @@ function Search() {
                 interactive
                 visible={showResultSearch}
                 onClickOutside={() => setShowResultSearch(false)}
-                offset={[-14, -40]}
-                placement="bottom"
+                offset={[-39, -40]}
+                placement="bottom-start"
                 render={(attrs) => {
                     return (
                         <Popper className={cx('search-popper')} tabIndex="-1" {...attrs}>
