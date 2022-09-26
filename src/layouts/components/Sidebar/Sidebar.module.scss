@@ -23,3 +23,74 @@
     width: 120px;
     height: 40px;
 }
+
+.menu {
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        width: 70%;
+        height: 0.1px;
+        background-color: #ccc;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+.menu-roll {
+    width: 240px;
+    top: 296px;
+    margin-top: 10px;
+    position: fixed;
+    left: 0;
+    overflow: auto;
+    height: 260px;
+    .login-discover {
+        text-align: center;
+        padding: 15px 8px;
+        margin: 10px 20px;
+        border-radius: 8px;
+        background-color: var(--purple-primary);
+        .description {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            list-style: 1.67rem;
+            color: #fff;
+        }
+        .login-btn {
+            font-size: 1.2rem;
+            font-weight: 600;
+            width: 120px;
+            border-color: #fff;
+            background-color: transparent;
+            text-transform: uppercase;
+            color: #fff;
+        }
+    }
+    .vip-banner {
+        text-align: center;
+        padding: 15px 8px;
+        margin: 10px 20px;
+        border-radius: 8px;
+        background-image: linear-gradient(117deg, #5a4be7, #c86dd7 102%);
+        .title-vip {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            list-style: 1.67rem;
+            color: #fff;
+        }
+        .vip-btn {
+            font-size: 1.2rem;
+            font-weight: 600;
+            width: 140px;
+            background-color: #ffdb00;
+            border: #ffdb00;
+            color: #000;
+            text-transform: uppercase;
+        }
+    }
+}

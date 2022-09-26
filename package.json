@@ -17,10 +17,9 @@
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-router-dom": "^6.4.0",
+        "react-router-dom": "^6.3.0",
         "react-scripts": "5.0.1",
-        "web-vitals": "^2.1.4",
-        "zingmp3-api-full": "^1.0.14"
+        "web-vitals": "^2.1.4"
     },
     "devDependencies": {
         "babel-plugin-module-resolver": "^4.1.0",

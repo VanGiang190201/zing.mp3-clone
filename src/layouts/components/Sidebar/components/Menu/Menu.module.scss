@@ -1,0 +1,31 @@
+.menu-item {
+    color: #dadada;
+    padding: 8px 25px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    border-left: 4px solid transparent;
+
+    &:hover {
+        color: #fff;
+    }
+    &.active {
+        background-color: #ffffff1a;
+        border-left: 4px solid var(--popperBg);
+    }
+}
+
+.title {
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    font-size: 2rem;
+    margin-right: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
