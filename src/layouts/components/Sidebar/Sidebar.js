@@ -1,12 +1,23 @@
 import classNames from 'classnames/bind';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './Sidebar.module.scss';
 import images from '~/assets/images';
 import Menu from './components/Menu';
 import MenuItem from './components/Menu/MenuItem';
 import config from '~/config';
-import { BoxIcon, RecordIcon, ChartIcon, RadioIcon, DocumentIcon } from '~/components/icons';
+import {
+    BoxIcon,
+    RecordIcon,
+    ChartIcon,
+    RadioIcon,
+    DocumentIcon,
+    MusicIcon,
+    WolfIcon,
+    StarIcon,
+} from '~/components/icons';
 import Button from '~/components/Button';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 function Sidebar() {
@@ -27,9 +38,9 @@ function Sidebar() {
                 </div>
                 <div className={cx('menu-roll')}>
                     <Menu>
-                        <MenuItem to={config.newMusic} title="Nhạc mới" icon={<BoxIcon />} />
-                        <MenuItem to={config.category} title="Thể loại" icon={<RecordIcon />} />
-                        <MenuItem to={config.topMusic} title="Top 100" icon={<ChartIcon />} />
+                        <MenuItem to={config.newMusic} title="Nhạc mới" icon={<MusicIcon />} />
+                        <MenuItem to={config.category} title="Thể loại" icon={<WolfIcon />} />
+                        <MenuItem to={config.topMusic} title="Top 100" icon={<StarIcon />} />
                         <div className={cx('login-discover')}>
                             <p className={cx('description')}>Đăng nhập để khám phá playlist dành riêng cho bạn</p>
                             <Button outline className={cx('login-btn')}>
@@ -43,6 +54,12 @@ function Sidebar() {
                             </Button>
                         </div>
                     </Menu>
+                </div>
+                <div className={cx('add-new-playlist')}>
+                    <Button className={cx('add-playlist-btn')}>
+                        <FontAwesomeIcon icon={faPlus} />
+                        <span>Tạo playlist mới</span>
+                    </Button>
                 </div>
             </div>
         </aside>
