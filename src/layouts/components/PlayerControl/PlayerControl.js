@@ -12,7 +12,6 @@ function PlayerControl() {
     const [song, setSong] = useState({});
 
     const audio = song[128];
-    console.log(audio);
     useEffect(() => {
         request.get('/song/Z6I7OD77').then((res) => setSong(res.data));
     }, []);
@@ -23,7 +22,7 @@ function PlayerControl() {
                 <SongInformation />
             </div>
             <div className={cx('song-control')}>
-                <SongControl />
+                <SongControl src={audio} />
                 {/* <audio src={audio} controls className={cx('audio')} /> */}
             </div>
             <div className={cx('outside-control')}>

@@ -1,0 +1,41 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.mini-show {
+    margin-left: 0;
+}
+.btn {
+    padding: 3px;
+}
+.icon {
+    font-size: 1.4rem;
+    color: #fff;
+}
+.volume {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.progress-volume {
+    height: 3px;
+    width: 50%;
+}
+.playlist {
+    margin-left: 10px;
+    background-color: #2a2533;
+    border-radius: 4px;
+    position: relative;
+    ::before {
+        content: '';
+        width: 0.5px;
+        height: 44px;
+        position: absolute;
+        top: -2px;
+        left: -28px;
+        background-color: #ccc;
+    }
+}
