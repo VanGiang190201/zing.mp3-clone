@@ -1,0 +1,20 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.song-information {
+    flex: 1;
+}
+.song-control {
+    flex: 1;
+}
+.outside-control {
+    flex: 1;
+}
+.audio {
+    width: 100%;
+}
