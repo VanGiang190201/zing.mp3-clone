@@ -399,7 +399,7 @@ export const NextIcon = ({ width = '2rem', height = '2rem', className }) => (
     </svg>
 );
 
-export const PauseIcon = ({ width = '3.6rem', height = '3.6rem', className }) => (
+export const PlayIcon = ({ width = '3.6rem', height = '3.6rem', className }) => (
     <svg
         width={width}
         height={height}
@@ -415,7 +415,7 @@ export const PauseIcon = ({ width = '3.6rem', height = '3.6rem', className }) =>
     </svg>
 );
 
-export const PlayIcon = ({ width = '2rem', height = '2rem', className }) => (
+export const PauseIcon = ({ width = '3.6rem', height = '3.6rem', className }) => (
     <svg
         width={width}
         height={height}

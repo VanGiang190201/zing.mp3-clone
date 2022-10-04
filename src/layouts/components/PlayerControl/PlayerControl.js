@@ -11,18 +11,17 @@ const cx = classNames.bind(styles);
 function PlayerControl() {
     const [song, setSong] = useState({});
 
-    const audio = song[128];
     useEffect(() => {
-        request.get('/song/Z6I7OD77').then((res) => setSong(res.data));
+        request.get('/song/Z6I76BBO').then((res) => setSong(res.data));
     }, []);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('song-information')}>
-                <SongInformation />
+                <SongInformation data={song} />
             </div>
             <div className={cx('song-control')}>
-                <SongControl src={audio} />
+                <SongControl data={song} />
                 {/* <audio src={audio} controls className={cx('audio')} /> */}
             </div>
             <div className={cx('outside-control')}>
