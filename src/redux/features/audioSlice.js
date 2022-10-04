@@ -3,7 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     audioSrc: '',
     isPlay: false,
-    volume: 50,
+    volume: 0.5,
+    inforSongPlaying: {
+        title: 'Tên bài hát',
+        artistsNames: 'artistsNames',
+        thumbnailM: '',
+    },
 };
 export const audioSlice = createSlice({
     name: 'audio',
@@ -14,6 +19,9 @@ export const audioSlice = createSlice({
         },
         setVolume: (state, action) => {
             state.volume = action.payload;
+        },
+        setInforSongPlaying: (state, action) => {
+            state.inforSongPlaying = action.payload;
         },
     },
 });

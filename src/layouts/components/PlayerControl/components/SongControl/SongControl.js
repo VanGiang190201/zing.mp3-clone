@@ -15,11 +15,18 @@ function SongControl({ data }) {
     const progressRef = useRef();
 
     const isPlay = useSelector((state) => state.audio.isPlay);
+    const volume = useSelector((state) => state.audio.volume);
+
     const dispatch = useDispatch();
 
-    const [currentTime, setCurrentTime] = useState();
+    const [currentTime, setCurrentTime] = useState('00:00');
+
     const audio = audioRef.current;
+    if (audio) {
+        audio.volume = volume;
+    }
     const progressRange = progressRef.current;
+
     const handleProgressSong = () => {
         const progressCurrentTime = Math.floor((audio.currentTime / audio.duration) * 100);
         progressRange.value = progressCurrentTime;
@@ -28,12 +35,12 @@ function SongControl({ data }) {
     const handlePlaySong = () => {
         if (isPlay) {
             dispatch(audioSlice.actions.setIsPlay(false));
-            if (audioRef) {
+            if (audio) {
                 audio.pause();
             }
         } else {
             dispatch(audioSlice.actions.setIsPlay(true));
-            if (audioRef) {
+            if (audio) {
                 audio.play();
             }
         }
