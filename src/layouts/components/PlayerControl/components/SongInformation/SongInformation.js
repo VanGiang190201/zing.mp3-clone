@@ -8,7 +8,6 @@ import Image from '~/components/Image';
 const cx = classNames.bind(styles);
 function SongInformation() {
     const inforSongPlaying = useSelector((state) => state.audio.inforSongPlaying);
-    console.log(inforSongPlaying);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('song-image')}>
