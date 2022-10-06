@@ -11,3 +11,28 @@
 .container {
     margin-top: 70px;
 }
+.header {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+.title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: normal;
+    color: #fff;
+}
+.play-btn {
+    width: 40px;
+    height: 40px;
+    background-color: #fff !important;
+    margin-left: 5px;
+}
+.play-icon {
+    color: var(--purple-primary);
+    width: 40px;
+    height: 40px;
+}
+.list-item {
+    margin-bottom: 90px;
+}

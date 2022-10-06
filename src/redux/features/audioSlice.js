@@ -9,6 +9,9 @@ const initialState = {
         artistsNames: 'artistsNames',
         thumbnailM: '',
     },
+    songId: 'Z6IAIUFU',
+    playlistSong: [],
+    currentIndexSong: 0,
 };
 export const audioSlice = createSlice({
     name: 'audio',
@@ -22,6 +25,18 @@ export const audioSlice = createSlice({
         },
         setInforSongPlaying: (state, action) => {
             state.inforSongPlaying = action.payload;
+        },
+        setAudioSrc: (state, action) => {
+            state.audioSrc = action.payload;
+        },
+        setSongId: (state, action) => {
+            state.songId = action.payload;
+        },
+        setCurrentIndexSong: (state, action) => {
+            state.currentIndexSong = action.payload;
+        },
+        setPlaylistSong: (state, action) => {
+            state.playlistSong = action.payload;
         },
     },
 });

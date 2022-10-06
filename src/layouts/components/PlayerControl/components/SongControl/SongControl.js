@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,9 +13,11 @@ const cx = classNames.bind(styles);
 function SongControl({ data }) {
     const audioRef = useRef();
     const progressRef = useRef();
-
     const isPlay = useSelector((state) => state.audio.isPlay);
     const volume = useSelector((state) => state.audio.volume);
+    const audioSrc = useSelector((state) => state.audio.audioSrc);
+    const playlistSong = useSelector((state) => state.audio.playlistSong);
+    let currentIndexSong = useSelector((state) => state.audio.currentIndexSong);
 
     const dispatch = useDispatch();
 
@@ -45,7 +47,17 @@ function SongControl({ data }) {
             }
         }
     };
-
+    const handleNextSong = () => {
+        dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong += 1)));
+        if (playlistSong.length !== 0) {
+            dispatch(audioSlice.actions.setSongId(playlistSong[currentIndexSong].encodeId));
+        }
+    };
+    useEffect(() => {
+        if (audioSrc !== '') {
+            isPlay ? audio.play() : audio.pause();
+        }
+    }, [audioSrc, isPlay, audio]);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('action')}>
@@ -60,7 +72,7 @@ function SongControl({ data }) {
                 <Button noneborder primary className={cx('btn')} onClick={handlePlaySong}>
                     {isPlay ? <PauseIcon className={cx('icon')} /> : <PlayIcon className={cx('icon')} />}
                 </Button>
-                <Button noneborder primary className={cx('btn')}>
+                <Button noneborder primary className={cx('btn')} onClick={handleNextSong}>
                     <NextIcon className={cx('icon')} />
                 </Button>
                 <Tippy content="Bật phát lại tất cả" placement="top" offset={[0, 0]}>
@@ -83,16 +95,8 @@ function SongControl({ data }) {
                           }`
                         : '00:00'}
                 </span>
-                <input
-                    type="range"
-                    className={cx('progress')}
-                    defaultValue="0"
-                    step="1"
-                    min="0"
-                    max="100"
-                    ref={progressRef}
-                />
-                <audio src={data[128]} onTimeUpdate={handleProgressSong} ref={audioRef} />
+                <input type="range" className={cx('progress')} step="1" min="0" max="100" ref={progressRef} />
+                <audio src={audioSrc} onTimeUpdate={handleProgressSong} ref={audioRef} />
                 <span className={cx('time')}>
                     {audio
                         ? `${

@@ -13,12 +13,18 @@
     padding: 10px;
     border-radius: 4px;
     background-color: transparent;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ffffff1a;
+    &:hover {
+        background-color: #ffffff1a;
+    }
+    &:hover .play-action {
+        opacity: 1;
+    }
 }
 
 .media-left {
     display: flex;
-    flex: 1;
+    width: 50%;
 }
 
 .song-prefix {
@@ -29,13 +35,23 @@
 }
 
 .serial-number {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
     display: flex;
     justify-content: center;
     font-weight: 700;
-    -webkit-text-stroke: 1px #4a90e2;
+    -webkit-text-stroke: 1px var(--text-primary);
     min-width: 60px;
     color: transparent;
+}
+
+.serial-number.top-1 {
+    -webkit-text-stroke: 1px var(--top-1-color);
+}
+.serial-number.top-2 {
+    -webkit-text-stroke: 1px var(--top-2-color);
+}
+.serial-number.top-3 {
+    -webkit-text-stroke: 1px var(--top-3-color);
 }
 
 .song-thumb {
@@ -45,11 +61,32 @@
     cursor: pointer;
     width: 40px;
     height: 40px;
+    position: relative;
+    flex-shrink: 0;
 }
 .song-image {
     object-fit: cover;
     width: 100%;
     height: 100%;
+}
+.play-action {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.btn-play {
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.icon-play {
+    color: #fff;
 }
 .song-info {
     overflow: hidden;
@@ -60,19 +97,22 @@
 }
 
 .title-wrapper {
-    max-width: 100%;
     display: flex;
     align-items: center;
+    overflow: hidden;
 }
 
 .song-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 500;
     line-height: 1.4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .song-artists {
-    line-height: 1.3rem;
+    line-height: 1.2rem;
     margin-top: 3px;
 }
 
@@ -81,10 +121,11 @@
     font-size: 1.2rem;
 }
 .media-content {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
-    justify-content: center;
+
     align-items: center;
+    justify-content: flex-start;
 }
 
 .album-info {
@@ -94,8 +135,19 @@
 
 .album-name {
     color: #ffffff80;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 .media-right {
-    flex: 1;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+.action-item {
+    display: flex;
+}
+
+.duration-item {
+    font-size: 1.2rem;
+    width: 46px;
+    color: #ffffff80;
 }

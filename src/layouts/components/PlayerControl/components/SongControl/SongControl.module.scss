@@ -11,6 +11,9 @@
 
 .btn {
     margin: 0 7px;
+    &:hover {
+        background-color: #ffffff1a !important;
+    }
 }
 .icon {
     font-size: 1.5rem;

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import classNames from 'classnames/bind';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as request from '~/utils/request';
 import styles from './PlayerControl.module.scss';
@@ -11,13 +11,18 @@ import { audioSlice } from '~/redux/features/audioSlice';
 
 const cx = classNames.bind(styles);
 function PlayerControl() {
-    const [song, setSong] = useState({});
     const dispatch = useDispatch();
+
+    const songId = useSelector((state) => state.audio.songId);
+    console.log(songId);
     useEffect(() => {
-        request.get('/song/Z6I76BBO').then((res) => setSong(res.data));
-    }, []);
+        request.get(`/song/${songId}`).then((res) => {
+            console.log(res);
+            dispatch(audioSlice.actions.setAudioSrc(res.data[128]));
+        });
+    }, [dispatch, songId]);
     useEffect(() => {
-        request.get('/song/info/Z6I76BBO').then((res) => {
+        request.get(`/song/info/${songId}`).then((res) => {
             dispatch(
                 audioSlice.actions.setInforSongPlaying({
                     title: res.data.title,
@@ -27,15 +32,15 @@ function PlayerControl() {
             );
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [song]);
+    }, [songId]);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('song-information')}>
-                <SongInformation data={song} />
+                <SongInformation />
             </div>
             <div className={cx('song-control')}>
-                <SongControl data={song} />
+                <SongControl />
                 {/* <audio src={audio} controls className={cx('audio')} /> */}
             </div>
             <div className={cx('outside-control')}>
