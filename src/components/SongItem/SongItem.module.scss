@@ -6,6 +6,12 @@
     overflow: hidden;
     width: 100%;
 }
+.song-item.playing {
+    background-color: #ffffff1a;
+    .play-action {
+        opacity: 1;
+    }
+}
 
 .media {
     display: flex;
@@ -86,6 +92,9 @@
 }
 
 .icon-play {
+    color: #fff;
+}
+.icon-pause {
     color: #fff;
 }
 .song-info {

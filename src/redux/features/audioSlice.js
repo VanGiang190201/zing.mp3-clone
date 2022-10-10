@@ -4,6 +4,7 @@ const initialState = {
     audioSrc: '',
     isPlay: false,
     volume: 0.5,
+    isLoop: false,
     inforSongPlaying: {
         title: 'Tên bài hát',
         artistsNames: 'artistsNames',
@@ -37,6 +38,9 @@ export const audioSlice = createSlice({
         },
         setPlaylistSong: (state, action) => {
             state.playlistSong = action.payload;
+        },
+        setIsLoop: (state, action) => {
+            state.isLoop = action.payload;
         },
     },
 });

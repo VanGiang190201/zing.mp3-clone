@@ -31,8 +31,7 @@ function PlayerControl() {
                 }),
             );
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [songId]);
+    }, [dispatch, songId]);
 
     return (
         <div className={cx('wrapper')}>

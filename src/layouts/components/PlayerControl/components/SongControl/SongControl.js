@@ -10,7 +10,7 @@ import { RandomIcon, PrevIcon, NextIcon, PauseIcon, LoopIcon, PlayIcon } from '~
 import { audioSlice } from '~/redux/features/audioSlice';
 
 const cx = classNames.bind(styles);
-function SongControl({ data }) {
+function SongControl() {
     const audioRef = useRef();
     const progressRef = useRef();
     const isPlay = useSelector((state) => state.audio.isPlay);
@@ -18,6 +18,7 @@ function SongControl({ data }) {
     const audioSrc = useSelector((state) => state.audio.audioSrc);
     const playlistSong = useSelector((state) => state.audio.playlistSong);
     let currentIndexSong = useSelector((state) => state.audio.currentIndexSong);
+    const isLoop = useSelector((state) => state.audio.isLoop);
 
     const dispatch = useDispatch();
 
@@ -49,8 +50,30 @@ function SongControl({ data }) {
     };
     const handleNextSong = () => {
         dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong += 1)));
+        if (currentIndexSong > playlistSong.length - 1) {
+            dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong = 0)));
+        }
         if (playlistSong.length !== 0) {
             dispatch(audioSlice.actions.setSongId(playlistSong[currentIndexSong].encodeId));
+        }
+    };
+
+    const handlePrevSong = () => {
+        dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong -= 1)));
+
+        if (currentIndexSong < 0) {
+            dispatch(audioSlice.actions.setCurrentIndexSong(currentIndexSong));
+        }
+        if (playlistSong.length !== 0) {
+            dispatch(audioSlice.actions.setSongId(playlistSong[currentIndexSong].encodeId));
+        }
+    };
+
+    const handleLoop = () => {
+        if (isLoop) {
+            dispatch(audioSlice.actions.setIsLoop(false));
+        } else {
+            dispatch(audioSlice.actions.setIsLoop(true));
         }
     };
     useEffect(() => {
@@ -66,7 +89,7 @@ function SongControl({ data }) {
                         <RandomIcon className={cx('icon')} />
                     </Button>
                 </Tippy>
-                <Button noneborder primary className={cx('btn')}>
+                <Button noneborder primary className={cx('btn')} onClick={handlePrevSong}>
                     <PrevIcon className={cx('icon')} />
                 </Button>
                 <Button noneborder primary className={cx('btn')} onClick={handlePlaySong}>
@@ -75,9 +98,9 @@ function SongControl({ data }) {
                 <Button noneborder primary className={cx('btn')} onClick={handleNextSong}>
                     <NextIcon className={cx('icon')} />
                 </Button>
-                <Tippy content="Bật phát lại tất cả" placement="top" offset={[0, 0]}>
-                    <Button noneborder primary className={cx('btn')}>
-                        <LoopIcon className={cx('icon')} />
+                <Tippy content={isLoop ? 'Tắt phát lại' : 'Bật phát lại tất cả'} placement="top" offset={[0, 0]}>
+                    <Button noneborder primary className={cx('btn')} onClick={handleLoop}>
+                        <LoopIcon className={cx('icon', isLoop && 'loop')} />
                     </Button>
                 </Tippy>
             </div>
@@ -96,7 +119,7 @@ function SongControl({ data }) {
                         : '00:00'}
                 </span>
                 <input type="range" className={cx('progress')} step="1" min="0" max="100" ref={progressRef} />
-                <audio src={audioSrc} onTimeUpdate={handleProgressSong} ref={audioRef} />
+                <audio src={audioSrc} onTimeUpdate={handleProgressSong} ref={audioRef} loop={isLoop} />
                 <span className={cx('time')}>
                     {audio
                         ? `${

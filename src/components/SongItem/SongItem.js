@@ -1,12 +1,15 @@
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import styles from './SongItem.module.scss';
 import Image from '~/components/Image';
-import { PLayNormalIcon } from '~/components/icons';
+import { PLayNormalIcon, PauseNormalIcon } from '~/components/icons';
 const cx = classNames.bind(styles);
 
 function SongItem({ data, index, onDoubleClick }) {
+    const songId = useSelector((state) => state.audio.songId);
+    const isPlay = useSelector((state) => state.audio.isPlay);
     const top = (top) => {
         if (top === 0) {
             return 'top-1';
@@ -18,7 +21,7 @@ function SongItem({ data, index, onDoubleClick }) {
     };
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('song-item')}>
+            <div className={cx('song-item', songId === data.encodeId && 'playing')}>
                 <div className={cx('media')} onDoubleClick={onDoubleClick}>
                     <div className={cx('media-left')}>
                         <div className={cx('song-prefix')}>
@@ -28,7 +31,11 @@ function SongItem({ data, index, onDoubleClick }) {
                             <Image src={data.thumbnailM} alt={data.alias} className={cx('song-image')} />
                             <div className={cx('play-action')}>
                                 <button className={cx('btn-play')}>
-                                    <PLayNormalIcon className={cx('icon-play')} />
+                                    {isPlay && songId === data.encodeId ? (
+                                        <PauseNormalIcon className={cx('icon-pause')} />
+                                    ) : (
+                                        <PLayNormalIcon className={cx('icon-play')} />
+                                    )}
                                 </button>
                             </div>
                         </div>
@@ -43,7 +50,7 @@ function SongItem({ data, index, onDoubleClick }) {
                     </div>
                     <div className={cx('media-content')}>
                         <div className={cx('album-info')}>
-                            <span className={cx('album-name')}>{data.album.title}</span>
+                            <span className={cx('album-name')}>{data.album ? data.album.title : ''}</span>
                         </div>
                     </div>
                     <div className={cx('media-right')}>
