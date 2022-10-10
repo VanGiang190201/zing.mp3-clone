@@ -14,10 +14,9 @@ function PlayerControl() {
     const dispatch = useDispatch();
 
     const songId = useSelector((state) => state.audio.songId);
-    console.log(songId);
+
     useEffect(() => {
         request.get(`/song/${songId}`).then((res) => {
-            console.log(res);
             dispatch(audioSlice.actions.setAudioSrc(res.data[128]));
         });
     }, [dispatch, songId]);

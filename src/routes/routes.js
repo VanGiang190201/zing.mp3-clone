@@ -7,6 +7,7 @@ import Follow from '~/pages/Follow';
 import NewMusic from '~/pages/NewMusic';
 import Category from '~/pages/Category';
 import TopMusic from '~/pages/TopMusic';
+import PlayList from '~/pages/PlayList';
 
 const publicRoutes = [
     {
@@ -40,6 +41,10 @@ const publicRoutes = [
     {
         path: config.topMusic,
         component: TopMusic,
+    },
+    {
+        path: config.playList,
+        component: PlayList,
     },
 ];
 const privateRoutes = [];
