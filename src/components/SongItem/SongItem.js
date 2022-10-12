@@ -7,7 +7,7 @@ import Image from '~/components/Image';
 import { PLayNormalIcon, PauseNormalIcon } from '~/components/icons';
 const cx = classNames.bind(styles);
 
-function SongItem({ data, index, onDoubleClick }) {
+function SongItem({ data, index, onDoubleClick, horizontal }) {
     const songId = useSelector((state) => state.audio.songId);
     const isPlay = useSelector((state) => state.audio.isPlay);
     const top = (top) => {
@@ -20,13 +20,17 @@ function SongItem({ data, index, onDoubleClick }) {
         } else return;
     };
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', horizontal ? 'horizontal' : '')}>
             <div className={cx('song-item', songId === data.encodeId && 'playing')}>
                 <div className={cx('media')} onDoubleClick={onDoubleClick}>
                     <div className={cx('media-left')}>
-                        <div className={cx('song-prefix')}>
-                            <span className={cx('serial-number', top(index))}>{index + 1}</span>
-                        </div>
+                        {index + 1 ? (
+                            <div className={cx('song-prefix')}>
+                                <span className={cx('serial-number', top(index))}>{index + 1}</span>
+                            </div>
+                        ) : (
+                            ''
+                        )}
                         <div className={cx('song-thumb')}>
                             <Image src={data.thumbnailM} alt={data.alias} className={cx('song-image')} />
                             <div className={cx('play-action')}>
@@ -79,5 +83,6 @@ function SongItem({ data, index, onDoubleClick }) {
 SongItem.propTypes = {
     data: PropTypes.object,
     index: PropTypes.number,
+    onDoubleClick: PropTypes.func,
 };
 export default SongItem;

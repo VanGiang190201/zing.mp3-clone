@@ -1,28 +1,32 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styles from './SectionItem.module.scss';
 import Image from '~/components/Image';
+import { PlayCircleIcon } from '~/components/icons';
 const cx = classNames.bind(styles);
-function SectionItem() {
+function SectionItem({ data }) {
     return (
         <div className={cx('section-item')}>
             <div className={cx('section-thumb')}>
-                <Link>
-                    <Image
-                        src="https://photo-resize-zmp3.zmdcdn.me/w320_r1x1_webp/cover/3/2/9/9/3299b789888d8f3ea2e1dcff5d7a28b3.jpg"
-                        alt="image-section"
-                        className={cx('image-section-item')}
-                    />
+                <Link to={data.link} state={{ id: data.encodeId }}>
+                    <Image src={data.thumbnailM} alt="image-section" className={cx('image-section-item')} />
                 </Link>
+
+                <PlayCircleIcon className={cx('play-icon')} />
             </div>
             <div className={cx('section-information')}>
-                <Link>
-                    <h4 className={cx('title')}>Nghe nhạc mỗi ngày</h4>
+                <Link to={data.link} state={{ id: data.encodeId }}>
+                    <h4 className={cx('title')}>{data.title}</h4>
                 </Link>
+                {data.sortDescription && <p className={cx('description')}>{data.sortDescription}</p>}
             </div>
         </div>
     );
 }
 
+SectionItem.propTypes = {
+    data: PropTypes.object,
+};
 export default SectionItem;

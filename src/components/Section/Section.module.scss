@@ -3,15 +3,21 @@
 }
 
 .header {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .title {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     color: #fff;
 }
 
 .section-list {
     position: relative;
     display: flex;
+}
+.section-list.vertical {
+    display: flex;
+    flex-wrap: wrap;
+    height: 320px;
+    overflow: hidden;
 }

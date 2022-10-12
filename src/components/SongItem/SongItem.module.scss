@@ -1,6 +1,31 @@
 .wrapper {
     width: 100%;
 }
+.wrapper.horizontal {
+    width: 320px;
+    margin-right: 10px;
+    height: 80px;
+    .media {
+        height: 80px;
+        display: flex;
+        align-items: center;
+    }
+    .song-singer {
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        white-space: nowrap;
+    }
+    .media-content {
+        display: none;
+    }
+    .media-left {
+        flex: 1;
+        margin-right: 8px;
+    }
+}
 
 .song-item {
     overflow: hidden;

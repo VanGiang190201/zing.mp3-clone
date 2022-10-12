@@ -8,6 +8,7 @@ const config = {
     category: '/hub',
     topMusic: '/top100',
     playList: '/playlist/:name/:id',
+    album: '/album/:name/:id',
 };
 
 export default config;

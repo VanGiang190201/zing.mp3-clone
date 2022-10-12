@@ -46,6 +46,10 @@ const publicRoutes = [
         path: config.playList,
         component: PlayList,
     },
+    {
+        path: config.album,
+        component: PlayList,
+    },
 ];
 const privateRoutes = [];
 
