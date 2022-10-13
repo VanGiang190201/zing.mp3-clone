@@ -153,6 +153,10 @@
 .song-singer {
     color: #ffffff80;
     font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 .media-content {
     flex: 1 1 auto;
