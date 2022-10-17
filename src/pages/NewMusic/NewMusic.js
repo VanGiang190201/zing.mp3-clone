@@ -8,26 +8,34 @@ import SongItem from '~/components/SongItem';
 import Button from '~/components/Button';
 import { PlayIcon } from '~/components/icons';
 import { audioSlice } from '~/redux/features/audioSlice';
+import Loading from '~/components/Loading';
 const cx = classNames.bind(styles);
 function NewMusic() {
     const dispatch = useDispatch();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({});
+    console.log(typeof data);
     useEffect(() => {
         request.get('/chart/new-release').then((res) => setData(res.data.data));
     }, []);
 
     const handlePlaySong = (song, playlist, index) => {
-        dispatch(audioSlice.actions.setSongId(song.encodeId));
-        dispatch(audioSlice.actions.setIsPlay(true));
+        if (song.streamingStatus === 1 && song.isWorldWide) {
+            dispatch(audioSlice.actions.setSongId(song.encodeId));
+            dispatch(audioSlice.actions.setIsPlay(true));
 
-        const listSongCanPlay = [];
-        for (let i = 0; i < playlist.length; i++) {
-            listSongCanPlay.push(playlist[i]);
+            const listSongCanPlay = [];
+            for (let i = 0; i < playlist.length; i++) {
+                listSongCanPlay.push(playlist[i]);
+            }
+            dispatch(audioSlice.actions.setPlaylistSong(listSongCanPlay));
+            dispatch(audioSlice.actions.setCurrentIndexSong(index));
+        } else {
+            alert('Dành cho tài khoản vip');
         }
-        dispatch(audioSlice.actions.setPlaylistSong(listSongCanPlay));
-        dispatch(audioSlice.actions.setCurrentIndexSong(index));
     };
-    return (
+    return Object.keys(data).length === 0 ? (
+        <Loading />
+    ) : (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('container')}>
@@ -45,6 +53,7 @@ function NewMusic() {
                                         key={index}
                                         data={item}
                                         index={index}
+                                        playlist={data.items}
                                         onDoubleClick={() => handlePlaySong(item, data.items, index)}
                                     />
                                 );

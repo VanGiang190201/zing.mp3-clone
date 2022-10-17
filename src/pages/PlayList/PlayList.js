@@ -11,13 +11,16 @@ import { PLayNormalIcon } from '~/components/icons';
 import SongItem from '~/components/SongItem';
 import { audioSlice } from '~/redux/features/audioSlice';
 import Artist from '~/components/Artist';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 function PlayList() {
     const [data, setData] = useState({});
-    console.log(data);
+
     const dispatch = useDispatch();
     const isPlay = useSelector((state) => state.audio.isPlay);
+    const songId = useSelector((state) => state.audio.songId);
+    const playlistSong = useSelector((state) => state.audio.playlistSong);
     const location = useLocation();
 
     const { id } = location.state;
@@ -26,21 +29,37 @@ function PlayList() {
         request.get(`/playlist/${id}`).then((res) => setData(res.data.data));
     }, [id]);
     const handlePlaySong = (song, playlist, index) => {
-        dispatch(audioSlice.actions.setSongId(song.encodeId));
-        dispatch(audioSlice.actions.setIsPlay(true));
-        let listSongCanPlay = [];
-        for (let i = 0; i < playlist.length; i++) {
-            listSongCanPlay.push(playlist[i]);
+        if (song.streamingStatus === 1 && song.isWorldWide) {
+            dispatch(audioSlice.actions.setSongId(song.encodeId));
+            dispatch(audioSlice.actions.setIsPlay(true));
+            let listSongCanPlay = [];
+            for (let i = 0; i < playlist.length; i++) {
+                listSongCanPlay.push(playlist[i]);
+            }
+            dispatch(audioSlice.actions.setPlaylistSong(listSongCanPlay));
+            dispatch(audioSlice.actions.setCurrentIndexSong(index));
+        } else {
+            alert('Dành cho tài khoản vip');
         }
-        dispatch(audioSlice.actions.setPlaylistSong(listSongCanPlay));
-        dispatch(audioSlice.actions.setCurrentIndexSong(index));
     };
-    return (
+
+    const isSongInPlaylist = () => {
+        for (let i = 0; i < playlistSong.length; i++) {
+            if (playlistSong[i].encodeId === songId) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+    return Object.keys(data).length === 0 ? (
+        <Loading />
+    ) : (
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('playlist-detail')}>
                     <div className={cx('playlist-header')}>
-                        <div className={cx('img-thumb', isPlay ? 'playing' : '')}>
+                        <div className={cx('img-thumb', isPlay && isSongInPlaylist() ? 'playing' : '')}>
                             <Image src={data.thumbnailM} alt="playlist-thumb" className={cx('image')} />
                         </div>
                         <div className={cx('playlist-information')}>
@@ -73,6 +92,7 @@ function PlayList() {
                                           <SongItem
                                               key={song.encodeId}
                                               data={song}
+                                              playlist={data.song.items}
                                               onDoubleClick={() => handlePlaySong(song, data.song.items, index)}
                                           />
                                       ))

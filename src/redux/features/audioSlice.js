@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     audioSrc: '',
+    radioSrc: '',
     isPlay: false,
     volume: 0.5,
     isLoop: false,
@@ -41,6 +42,9 @@ export const audioSlice = createSlice({
         },
         setIsLoop: (state, action) => {
             state.isLoop = action.payload;
+        },
+        setRadioSrc: (state, action) => {
+            state.radioSrc = action.payload;
         },
     },
 });

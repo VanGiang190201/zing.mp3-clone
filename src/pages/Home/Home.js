@@ -9,6 +9,7 @@ import SectionItem from '~/components/Section/SectionItem';
 import Section from '~/components/Section';
 import SongItem from '~/components/SongItem';
 import { audioSlice } from '~/redux/features/audioSlice';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(styles);
 function Home() {
@@ -25,19 +26,25 @@ function Home() {
     }, []);
 
     const handlePlaySong = (song, playlist, index) => {
-        dispatch(audioSlice.actions.setSongId(song.encodeId));
-        dispatch(audioSlice.actions.setIsPlay(true));
+        if (song.streamingStatus === 1 && song.isWorldWide) {
+            dispatch(audioSlice.actions.setSongId(song.encodeId));
+            dispatch(audioSlice.actions.setIsPlay(true));
 
-        let listSongCanPlay = [];
+            let listSongCanPlay = [];
 
-        for (let i = 0; i < playlist.length; i++) {
-            listSongCanPlay.push(playlist[i]);
+            for (let i = 0; i < playlist.length; i++) {
+                listSongCanPlay.push(playlist[i]);
+            }
+            dispatch(audioSlice.actions.setPlaylistSong(listSongCanPlay));
+
+            dispatch(audioSlice.actions.setCurrentIndexSong(index));
+        } else {
+            alert('Dành cho tài khoản vip');
         }
-        dispatch(audioSlice.actions.setPlaylistSong(listSongCanPlay));
-
-        dispatch(audioSlice.actions.setCurrentIndexSong(index));
     };
-    return (
+    return data.length === 0 ? (
+        <Loading />
+    ) : (
         <div className={cx('wrapper')}>
             <div className={cx('gallery')}>
                 <Carousel data={data[0]} />
@@ -49,6 +56,7 @@ function Home() {
                                     <SongItem
                                         key={item.encodeId}
                                         data={item}
+                                        playlist={playlist.items[0].song}
                                         horizontal
                                         onDoubleClick={() => handlePlaySong(item, playlist.items[0].song, index)}
                                     />

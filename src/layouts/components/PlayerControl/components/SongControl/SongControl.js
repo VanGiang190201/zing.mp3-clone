@@ -50,6 +50,7 @@ function SongControl() {
     };
     const handleNextSong = () => {
         dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong += 1)));
+        dispatch(audioSlice.actions.setIsPlay(true));
         if (currentIndexSong > playlistSong.length - 1) {
             dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong = 0)));
         }
@@ -60,7 +61,7 @@ function SongControl() {
 
     const handlePrevSong = () => {
         dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong -= 1)));
-
+        dispatch(audioSlice.actions.setIsPlay(true));
         if (currentIndexSong < 0) {
             dispatch(audioSlice.actions.setCurrentIndexSong(currentIndexSong));
         }

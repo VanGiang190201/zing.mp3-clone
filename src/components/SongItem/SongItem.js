@@ -1,13 +1,17 @@
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './SongItem.module.scss';
 import Image from '~/components/Image';
 import { PLayNormalIcon, PauseNormalIcon } from '~/components/icons';
+import { audioSlice } from '~/redux/features/audioSlice';
+import images from '~/assets/images';
+
 const cx = classNames.bind(styles);
 
-function SongItem({ data, index, onDoubleClick, horizontal }) {
+function SongItem({ data, index, onDoubleClick, horizontal, playlist }) {
+    const dispatch = useDispatch();
     const songId = useSelector((state) => state.audio.songId);
     const isPlay = useSelector((state) => state.audio.isPlay);
     const top = (top) => {
@@ -18,6 +22,26 @@ function SongItem({ data, index, onDoubleClick, horizontal }) {
         } else if (top === 2) {
             return 'top-3';
         } else return;
+    };
+
+    const handlePlaySong = () => {
+        if (data.streamingStatus === 1 && data.isWorldWide) {
+            dispatch(audioSlice.actions.setSongId(data.encodeId));
+            dispatch(audioSlice.actions.setIsPlay(true));
+
+            let listSongCanPlay = [];
+            for (let i = 0; i < playlist.length; i++) {
+                listSongCanPlay.push(playlist[i]);
+            }
+            dispatch(audioSlice.actions.setPlaylistSong(listSongCanPlay));
+            dispatch(audioSlice.actions.setCurrentIndexSong(index));
+        } else {
+            alert('Dành cho tài khoản vip');
+        }
+    };
+
+    const handlePauseSong = () => {
+        dispatch(audioSlice.actions.setIsPlay(false));
     };
     return (
         <div className={cx('wrapper', horizontal ? 'horizontal' : '')}>
@@ -34,18 +58,27 @@ function SongItem({ data, index, onDoubleClick, horizontal }) {
                         <div className={cx('song-thumb')}>
                             <Image src={data.thumbnailM} alt={data.alias} className={cx('song-image')} />
                             <div className={cx('play-action')}>
-                                <button className={cx('btn-play')}>
-                                    {isPlay && songId === data.encodeId ? (
+                                {isPlay && songId === data.encodeId ? (
+                                    <button className={cx('btn-play')} onClick={handlePauseSong}>
                                         <PauseNormalIcon className={cx('icon-pause')} />
-                                    ) : (
-                                        <PLayNormalIcon className={cx('icon-play')} />
-                                    )}
-                                </button>
+                                    </button>
+                                ) : (
+                                    <button className={cx('btn-play')} onClick={handlePlaySong}>
+                                        <PLayNormalIcon className={cx('icon-pause')} />
+                                    </button>
+                                )}
                             </div>
                         </div>
                         <div className={cx('song-info')}>
                             <div className={cx('title-wrapper')}>
                                 <span className={cx('song-title')}>{data.title}</span>
+                                {data.streamingStatus === 1 && data.isWorldWide ? (
+                                    ''
+                                ) : (
+                                    <span className={cx('vip-label')}>
+                                        <img src={images.vipLabel} alt="vip-label" />
+                                    </span>
+                                )}
                             </div>
                             <div className={cx('song-artists')}>
                                 <span className={cx('song-singer')}>{data.artistsNames}</span>
