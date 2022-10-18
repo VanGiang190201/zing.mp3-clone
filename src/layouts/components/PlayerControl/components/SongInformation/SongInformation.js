@@ -18,7 +18,11 @@ function SongInformation() {
                     <marquee>{inforSongPlaying.title}</marquee>
                 </div>
                 <div className={cx('sing-name')}>
-                    <span>{inforSongPlaying.artistsNames}</span>
+                    <span>
+                        {inforSongPlaying.status === 2
+                            ? `${inforSongPlaying.activeUsers} đang nghe`
+                            : inforSongPlaying.artistsNames}
+                    </span>
                 </div>
             </div>
         </div>

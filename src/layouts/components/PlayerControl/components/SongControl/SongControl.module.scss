@@ -15,6 +15,12 @@
         background-color: #ffffff1a !important;
     }
 }
+.btn.radio {
+    pointer-events: none;
+    .icon {
+        color: #453f4f;
+    }
+}
 .icon {
     font-size: 1.5rem;
     color: #fff;

@@ -15,8 +15,6 @@ const cx = classNames.bind(styles);
 function Home() {
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
-    console.log(data);
-
     useEffect(() => {
         request.get('/home').then((res) => {
             if (res.data.data.items) {
@@ -27,6 +25,8 @@ function Home() {
 
     const handlePlaySong = (song, playlist, index) => {
         if (song.streamingStatus === 1 && song.isWorldWide) {
+            dispatch(audioSlice.actions.setAudioSrc(''));
+            dispatch(audioSlice.actions.setIsPlayRadio(false));
             dispatch(audioSlice.actions.setSongId(song.encodeId));
             dispatch(audioSlice.actions.setIsPlay(true));
 

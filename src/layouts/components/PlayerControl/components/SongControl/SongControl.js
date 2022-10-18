@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { useDispatch, useSelector } from 'react-redux';
+import ReactHlsPlayer from 'react-hls-player';
 
 import styles from './SongControl.module.scss';
 import Button from '~/components/Button';
@@ -12,6 +13,7 @@ import { audioSlice } from '~/redux/features/audioSlice';
 const cx = classNames.bind(styles);
 function SongControl() {
     const audioRef = useRef();
+    const radioRef = useRef();
     const progressRef = useRef();
     const isPlay = useSelector((state) => state.audio.isPlay);
     const volume = useSelector((state) => state.audio.volume);
@@ -19,6 +21,9 @@ function SongControl() {
     const playlistSong = useSelector((state) => state.audio.playlistSong);
     let currentIndexSong = useSelector((state) => state.audio.currentIndexSong);
     const isLoop = useSelector((state) => state.audio.isLoop);
+    const radioSrc = useSelector((state) => state.audio.radioSrc);
+    const isPlayRadio = useSelector((state) => state.audio.isPlayRadio);
+    const inforSongPlaying = useSelector((state) => state.audio.inforSongPlaying);
 
     const dispatch = useDispatch();
 
@@ -27,6 +32,9 @@ function SongControl() {
     const audio = audioRef.current;
     if (audio) {
         audio.volume = volume;
+    }
+    if (radioRef.current) {
+        radioRef.current.volume = volume;
     }
     const progressRange = progressRef.current;
 
@@ -82,59 +90,104 @@ function SongControl() {
             isPlay ? audio.play() : audio.pause();
         }
     }, [audioSrc, isPlay, audio]);
+    useEffect(() => {
+        if (radioSrc !== '') {
+            isPlayRadio ? radioRef.current.play() : radioRef.current.pause();
+        }
+    }, [radioSrc, isPlayRadio]);
+
+    const handlePlayRadio = () => {
+        if (isPlayRadio) {
+            dispatch(audioSlice.actions.setIsPlayRadio(false));
+            if (radioRef) {
+                radioRef.current.pause();
+            }
+        } else {
+            dispatch(audioSlice.actions.setIsPlayRadio(true));
+            if (radioRef) {
+                radioRef.current.play();
+            }
+        }
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('action')}>
                 <Tippy content="Bật phát ngẫu nhiên" placement="top" offset={[0, 0]}>
-                    <Button noneborder primary className={cx('btn')}>
+                    <Button noneborder primary className={cx('btn', inforSongPlaying.status === 2 ? 'radio' : '')}>
                         <RandomIcon className={cx('icon')} />
                     </Button>
                 </Tippy>
-                <Button noneborder primary className={cx('btn')} onClick={handlePrevSong}>
+                <Button
+                    noneborder
+                    primary
+                    className={cx('btn', inforSongPlaying.status === 2 ? 'radio' : '')}
+                    onClick={handlePrevSong}
+                >
                     <PrevIcon className={cx('icon')} />
                 </Button>
-                <Button noneborder primary className={cx('btn')} onClick={handlePlaySong}>
-                    {isPlay ? <PauseIcon className={cx('icon')} /> : <PlayIcon className={cx('icon')} />}
-                </Button>
-                <Button noneborder primary className={cx('btn')} onClick={handleNextSong}>
+                {inforSongPlaying.status === 2 ? (
+                    <Button noneborder primary className={cx('btn')} onClick={handlePlayRadio}>
+                        {isPlayRadio ? <PauseIcon className={cx('icon')} /> : <PlayIcon className={cx('icon')} />}
+                    </Button>
+                ) : (
+                    <Button noneborder primary className={cx('btn')} onClick={handlePlaySong}>
+                        {isPlay ? <PauseIcon className={cx('icon')} /> : <PlayIcon className={cx('icon')} />}
+                    </Button>
+                )}
+                <Button
+                    noneborder
+                    primary
+                    className={cx('btn', inforSongPlaying.status === 2 ? 'radio' : '')}
+                    onClick={handleNextSong}
+                >
                     <NextIcon className={cx('icon')} />
                 </Button>
                 <Tippy content={isLoop ? 'Tắt phát lại' : 'Bật phát lại tất cả'} placement="top" offset={[0, 0]}>
-                    <Button noneborder primary className={cx('btn')} onClick={handleLoop}>
+                    <Button
+                        noneborder
+                        primary
+                        className={cx('btn', inforSongPlaying.status === 2 ? 'radio' : '')}
+                        onClick={handleLoop}
+                    >
                         <LoopIcon className={cx('icon', isLoop && 'loop')} />
                     </Button>
                 </Tippy>
             </div>
-            <div className={cx('range')}>
-                <span className={cx('time')}>
-                    {audio
-                        ? `${
-                              Math.floor(currentTime / 60) < 10
-                                  ? '0' + Math.floor(currentTime / 60)
-                                  : Math.floor(currentTime / 60)
-                          } : ${
-                              Math.floor(currentTime % 60) < 10
-                                  ? '0' + Math.floor(currentTime % 60)
-                                  : Math.floor(currentTime % 60)
-                          }`
-                        : '00:00'}
-                </span>
-                <input type="range" className={cx('progress')} step="1" min="0" max="100" ref={progressRef} />
-                <audio src={audioSrc} onTimeUpdate={handleProgressSong} ref={audioRef} loop={isLoop} />
-                <span className={cx('time')}>
-                    {audio
-                        ? `${
-                              Math.floor(audio.duration / 60) < 10
-                                  ? '0' + Math.floor(audio.duration / 60)
-                                  : Math.floor(audio.duration / 60)
-                          } : ${
-                              Math.floor(audio.duration % 60) < 10
-                                  ? '0' + Math.floor(audio.duration % 60)
-                                  : Math.floor(audio.duration % 60)
-                          }`
-                        : '00:00'}
-                </span>
-            </div>
+            {inforSongPlaying.status === 2 ? (
+                ''
+            ) : (
+                <div className={cx('range')}>
+                    <span className={cx('time')}>
+                        {audio
+                            ? `${
+                                  Math.floor(currentTime / 60) < 10
+                                      ? '0' + Math.floor(currentTime / 60)
+                                      : Math.floor(currentTime / 60)
+                              } : ${
+                                  Math.floor(currentTime % 60) < 10
+                                      ? '0' + Math.floor(currentTime % 60)
+                                      : Math.floor(currentTime % 60)
+                              }`
+                            : '00:00'}
+                    </span>
+                    <input type="range" className={cx('progress')} step="1" min="0" max="100" ref={progressRef} />
+                    <audio src={audioSrc} onTimeUpdate={handleProgressSong} ref={audioRef} loop={isLoop} />
+                    <span className={cx('time')}>
+                        {audio
+                            ? `${
+                                  Math.floor(audio.duration / 60) < 10
+                                      ? '0' + Math.floor(audio.duration / 60)
+                                      : Math.floor(audio.duration / 60)
+                              } : ${
+                                  Math.floor(audio.duration % 60) < 10
+                                      ? '0' + Math.floor(audio.duration % 60)
+                                      : Math.floor(audio.duration % 60)
+                              }`
+                            : '00:00'}
+                    </span>
+                </div>
+            )}
+            <ReactHlsPlayer hidden src={radioSrc} playerRef={radioRef} />
         </div>
     );
 }

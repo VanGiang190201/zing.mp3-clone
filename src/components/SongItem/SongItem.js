@@ -26,6 +26,8 @@ function SongItem({ data, index, onDoubleClick, horizontal, playlist }) {
 
     const handlePlaySong = () => {
         if (data.streamingStatus === 1 && data.isWorldWide) {
+            dispatch(audioSlice.actions.setRadioSrc(''));
+            dispatch(audioSlice.actions.setIsPlayRadio(false));
             dispatch(audioSlice.actions.setSongId(data.encodeId));
             dispatch(audioSlice.actions.setIsPlay(true));
 

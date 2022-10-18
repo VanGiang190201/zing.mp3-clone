@@ -1,0 +1,80 @@
+//Radio List
+.wrapper {
+    width: 100%;
+}
+.radio-list {
+    margin-top: 48px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+//Radio Channel
+
+.radio-channel {
+    width: 200px;
+    padding: 0 12px;
+    margin-bottom: 20px;
+}
+.radio-channel.radio-playing {
+    .icon {
+        display: block;
+    }
+}
+
+.radio-thumb {
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+    border: 4px solid #e74c3c;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    &:hover {
+        .image {
+            transform: scale(1.1);
+        }
+        .icon {
+            display: block;
+        }
+    }
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s linear;
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 42px;
+    height: 42px;
+    color: #fff;
+    font-weight: 100;
+    display: none;
+}
+
+.radio-information {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.radio-name {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 2rem;
+    color: #fff;
+    margin-right: 0;
+}
+
+.quantity-listener {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 2.2rem;
+    color: #ffffff80;
+}

@@ -30,6 +30,8 @@ function PlayList() {
     }, [id]);
     const handlePlaySong = (song, playlist, index) => {
         if (song.streamingStatus === 1 && song.isWorldWide) {
+            dispatch(audioSlice.actions.setRadioSrc(''));
+            dispatch(audioSlice.actions.setIsPlayRadio(false));
             dispatch(audioSlice.actions.setSongId(song.encodeId));
             dispatch(audioSlice.actions.setIsPlay(true));
             let listSongCanPlay = [];
