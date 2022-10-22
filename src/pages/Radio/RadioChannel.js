@@ -6,6 +6,7 @@ import styles from './Radio.module.scss';
 import Image from '~/components/Image';
 import { PlayCircleIcon, PauseIcon } from '~/components/icons';
 import { audioSlice } from '~/redux/features/audioSlice';
+import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 function RadioChannel({ data }) {
@@ -31,6 +32,10 @@ function RadioChannel({ data }) {
             <div className={cx('radio-information')}>
                 <h3 className={cx('radio-name')}>{data.host.name}</h3>
                 <p className={cx('quantity-listener')}>{`${data.activeUsers} đang nghe`}</p>
+            </div>
+            <img src={images.liveLabel} alt="live-label" className={cx('live-label')} />
+            <div className={cx('channel-thumb')}>
+                <Image src={data.thumbnailM} alt="channel-thumb" className={cx('image')} />
             </div>
         </div>
     );

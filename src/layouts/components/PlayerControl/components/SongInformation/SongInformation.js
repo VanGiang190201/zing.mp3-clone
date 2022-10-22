@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import styles from './SongInformation.module.scss';
 import Image from '~/components/Image';
+import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 function SongInformation() {
@@ -19,6 +20,9 @@ function SongInformation() {
                 </div>
                 <div className={cx('sing-name')}>
                     <span>
+                        {inforSongPlaying.status === 2 && (
+                            <img src={images.liveLabel} alt="live-label" className={cx('live-label')} />
+                        )}
                         {inforSongPlaying.status === 2
                             ? `${inforSongPlaying.activeUsers} đang nghe`
                             : inforSongPlaying.artistsNames}

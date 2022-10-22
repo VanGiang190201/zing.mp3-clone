@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Sidebar.module.scss';
 import images from '~/assets/images';
@@ -17,7 +18,6 @@ import {
     StarIcon,
 } from '~/components/icons';
 import Button from '~/components/Button';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 function Sidebar() {
