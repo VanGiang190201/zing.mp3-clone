@@ -69,7 +69,7 @@ function Home() {
                         playlist.sectionType === 'playlist' && (
                             <Section key={index} title={playlist.title}>
                                 {playlist.items.map((item) => (
-                                    <SectionItem key={item.encodeId} data={item} topic />
+                                    <SectionItem key={item.encodeId} data={item} />
                                 ))}
                             </Section>
                         ),

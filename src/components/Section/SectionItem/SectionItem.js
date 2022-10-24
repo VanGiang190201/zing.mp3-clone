@@ -7,10 +7,10 @@ import Image from '~/components/Image';
 import { PlayCircleIcon } from '~/components/icons';
 import { type } from '@testing-library/user-event/dist/type';
 const cx = classNames.bind(styles);
-function SectionItem({ data, topic }) {
+function SectionItem({ data, topic, category }) {
     console.log(data);
     return (
-        <div className={cx('section-item', topic ? 'topic' : '')}>
+        <div className={cx('section-item', topic ? 'topic' : '', category ? 'category' : '')}>
             <div className={cx('section-thumb')}>
                 <Link to={data.link} state={{ id: data.encodeId }}>
                     <Image
@@ -20,20 +20,31 @@ function SectionItem({ data, topic }) {
                     />
                 </Link>
 
-                {topic && (
+                {topic === true && (
                     <div className={cx('subimage')}>
-                        {data.playlists.map((item) => (
-                            <Image src={item.thumbnail} alt="image" className={cx('image')} />
-                        ))}
+                        {data.playlists
+                            ? data.playlists.map((item, index) => (
+                                  <Image src={item.thumbnail} key={index} alt="image" className={cx('image')} />
+                              ))
+                            : ''}
                     </div>
                 )}
-                {topic === false && <PlayCircleIcon className={cx('play-icon')} />}
+                {topic ? '' : <PlayCircleIcon className={cx('play-icon')} />}
             </div>
             <div className={cx('section-information')}>
                 <Link to={data.link} state={{ id: data.encodeId }}>
                     <h4 className={cx('title')}>{data.title}</h4>
                 </Link>
-                {topic === false && data.sortDescription && <p className={cx('description')}>{data.sortDescription}</p>}
+                {category ? (
+                    <p className={cx('artist')}>
+                        {data.artists.map((artist, index) => (
+                            <span key={index}> {`${artist.name}, `}</span>
+                        ))}
+                    </p>
+                ) : (
+                    ''
+                )}
+                {!category && <p className={cx('description')}>{data.sortDescription}</p>}
             </div>
         </div>
     );

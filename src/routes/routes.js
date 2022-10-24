@@ -8,6 +8,7 @@ import NewMusic from '~/pages/NewMusic';
 import Category from '~/pages/Category';
 import TopMusic from '~/pages/TopMusic';
 import PlayList from '~/pages/PlayList';
+import { CategoryItem } from '~/pages/Category';
 
 const publicRoutes = [
     {
@@ -49,6 +50,10 @@ const publicRoutes = [
     {
         path: config.album,
         component: PlayList,
+    },
+    {
+        path: config.categoryItem,
+        component: CategoryItem,
     },
 ];
 const privateRoutes = [];
