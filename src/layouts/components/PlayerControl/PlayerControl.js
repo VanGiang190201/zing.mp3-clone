@@ -17,7 +17,13 @@ function PlayerControl() {
 
     useEffect(() => {
         request.get(`/song/${songId}`).then((res) => {
-            dispatch(audioSlice.actions.setAudioSrc(res.data[128]));
+            try {
+                dispatch(audioSlice.actions.setAudioSrc(res.data[128]));
+            } catch {
+                dispatch(audioSlice.actions.setIsPlay(false));
+                dispatch(audioSlice.actions.setAudioSrc(''));
+                alert('Tài khoản của bạn không phù hợp với bài hát này');
+            }
         });
     }, [dispatch, songId]);
     useEffect(() => {
@@ -27,6 +33,8 @@ function PlayerControl() {
                     title: res.data.title,
                     artistsNames: res.data.artistsNames,
                     thumbnailM: res.data.thumbnailM,
+                    isWorldWide: res.data.isWorldWide,
+                    streamingStatus: res.data.streamingStatus,
                 }),
             );
         });

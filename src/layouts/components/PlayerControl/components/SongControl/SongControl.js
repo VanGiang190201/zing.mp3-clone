@@ -24,7 +24,6 @@ function SongControl() {
     const radioSrc = useSelector((state) => state.audio.radioSrc);
     const isPlayRadio = useSelector((state) => state.audio.isPlayRadio);
     const inforSongPlaying = useSelector((state) => state.audio.inforSongPlaying);
-
     const dispatch = useDispatch();
     const [currentTime, setCurrentTime] = useState('00:00');
 
@@ -68,6 +67,7 @@ function SongControl() {
 
     const handlePrevSong = () => {
         dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong -= 1)));
+
         dispatch(audioSlice.actions.setIsPlay(true));
         if (currentIndexSong < 0) {
             dispatch(audioSlice.actions.setCurrentIndexSong(currentIndexSong));
@@ -105,6 +105,25 @@ function SongControl() {
             dispatch(audioSlice.actions.setIsPlayRadio(true));
             if (radioRef) {
                 radioRef.current.play();
+            }
+        }
+    };
+
+    const handleChangeProgressSong = (value) => {
+        const seekTime = (audioRef.current.duration / 100) * value;
+        audioRef.current.currentTime = seekTime;
+    };
+
+    const handleSongEnded = () => {
+        if (!isLoop) {
+            setCurrentTime('00:00');
+            dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong += 1)));
+            dispatch(audioSlice.actions.setIsPlay(true));
+            if (currentIndexSong > playlistSong.length - 1) {
+                dispatch(audioSlice.actions.setCurrentIndexSong((currentIndexSong = 0)));
+            }
+            if (playlistSong.length !== 0) {
+                dispatch(audioSlice.actions.setSongId(playlistSong[currentIndexSong].encodeId));
             }
         }
     };
@@ -169,8 +188,22 @@ function SongControl() {
                               }`
                             : '00:00'}
                     </span>
-                    <input type="range" className={cx('progress')} step="1" min="0" max="100" ref={progressRef} />
-                    <audio src={audioSrc} onTimeUpdate={handleProgressSong} ref={audioRef} loop={isLoop} />
+                    <input
+                        type="range"
+                        className={cx('progress')}
+                        step="1"
+                        min="0"
+                        max="100"
+                        ref={progressRef}
+                        onChange={(e) => handleChangeProgressSong(e.target.value)}
+                    />
+                    <audio
+                        src={audioSrc}
+                        onTimeUpdate={handleProgressSong}
+                        ref={audioRef}
+                        loop={isLoop}
+                        onEnded={handleSongEnded}
+                    />
                     <span className={cx('time')}>
                         {audio
                             ? `${

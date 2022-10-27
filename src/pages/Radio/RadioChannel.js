@@ -18,6 +18,7 @@ function RadioChannel({ data }) {
         dispatch(audioSlice.actions.setInforSongPlaying(data));
         dispatch(audioSlice.actions.setIsPlayRadio(true));
         dispatch(audioSlice.actions.setAudioSrc(''));
+        dispatch(audioSlice.actions.setPlaylistSong([]));
     };
     return (
         <div className={cx('radio-channel', radioSrc === data.streaming && isPlayRadio ? 'radio-playing' : '')}>
