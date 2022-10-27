@@ -26,7 +26,6 @@ function SongControl() {
     const inforSongPlaying = useSelector((state) => state.audio.inforSongPlaying);
 
     const dispatch = useDispatch();
-    console.log(audioSrc);
     const [currentTime, setCurrentTime] = useState('00:00');
 
     const audio = audioRef.current;

@@ -49,11 +49,11 @@ function PlayList() {
         for (let i = 0; i < playlistSong.length; i++) {
             if (playlistSong[i].encodeId === songId) {
                 return true;
-            } else {
-                return false;
             }
         }
+        return false;
     };
+    console.log(isSongInPlaylist());
     return Object.keys(data).length === 0 ? (
         <Loading />
     ) : (
@@ -94,8 +94,10 @@ function PlayList() {
                                           <SongItem
                                               key={song.encodeId}
                                               data={song}
+                                              index={index}
                                               playlist={data.song.items}
                                               onDoubleClick={() => handlePlaySong(song, data.song.items, index)}
+                                              hideIndex
                                           />
                                       ))
                                     : ''}

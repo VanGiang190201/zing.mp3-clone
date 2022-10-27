@@ -15,7 +15,7 @@ function Category() {
     const [titleButton, setTitleButton] = useState('TẤT CẢ');
     const [isShowAll, setIsShowAll] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    console.log(topic.length);
+    console.log(data);
     useEffect(() => {
         request.get('/category').then((res) => {
             setData(res.data.data);
@@ -57,6 +57,15 @@ function Category() {
                                 {titleButton}
                             </Button>
                         </div>
+                    </div>
+                    <div className={cx('genre')}>
+                        {data.genre.map((list) => (
+                            <Section key={list.encodeId} title={list.title}>
+                                {list.playlists.map((item) => (
+                                    <SectionItem key={item.encodeId} data={item} />
+                                ))}
+                            </Section>
+                        ))}
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 
-function SongItem({ data, index, onDoubleClick, horizontal, playlist }) {
+function SongItem({ data, index, onDoubleClick, horizontal, playlist, hideIndex }) {
     const dispatch = useDispatch();
     const songId = useSelector((state) => state.audio.songId);
     const isPlay = useSelector((state) => state.audio.isPlay);
@@ -50,7 +50,7 @@ function SongItem({ data, index, onDoubleClick, horizontal, playlist }) {
             <div className={cx('song-item', songId === data.encodeId && 'playing')}>
                 <div className={cx('media')} onDoubleClick={onDoubleClick}>
                     <div className={cx('media-left')}>
-                        {index + 1 ? (
+                        {!hideIndex ? (
                             <div className={cx('song-prefix')}>
                                 <span className={cx('serial-number', top(index))}>{index + 1}</span>
                             </div>
@@ -119,5 +119,8 @@ SongItem.propTypes = {
     data: PropTypes.object,
     index: PropTypes.number,
     onDoubleClick: PropTypes.func,
+    horizontal: PropTypes.bool,
+    playlist: PropTypes.array,
+    hideIndex: PropTypes.bool,
 };
 export default SongItem;

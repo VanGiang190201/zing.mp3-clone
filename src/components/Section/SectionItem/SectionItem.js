@@ -8,7 +8,6 @@ import { PlayCircleIcon } from '~/components/icons';
 import { type } from '@testing-library/user-event/dist/type';
 const cx = classNames.bind(styles);
 function SectionItem({ data, topic, category }) {
-    console.log(data);
     return (
         <div className={cx('section-item', topic ? 'topic' : '', category ? 'category' : '')}>
             <div className={cx('section-thumb')}>
@@ -44,7 +43,7 @@ function SectionItem({ data, topic, category }) {
                 ) : (
                     ''
                 )}
-                {!category && <p className={cx('description')}>{data.sortDescription}</p>}
+                {!category ? <p className={cx('description')}>{data.sortDescription}</p> : ''}
             </div>
         </div>
     );

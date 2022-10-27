@@ -56,9 +56,11 @@ function Home() {
                                     <SongItem
                                         key={item.encodeId}
                                         data={item}
+                                        index={index}
                                         playlist={playlist.items[0].song}
                                         horizontal
                                         onDoubleClick={() => handlePlaySong(item, playlist.items[0].song, index)}
+                                        hideIndex
                                     />
                                 ))}
                             </Section>
