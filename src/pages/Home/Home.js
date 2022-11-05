@@ -15,8 +15,10 @@ const cx = classNames.bind(styles);
 function Home() {
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         request.get('/home').then((res) => {
+            setIsLoading(false);
             if (res.data.data.items) {
                 setData(res.data.data.items);
             }
@@ -42,7 +44,7 @@ function Home() {
             alert('Dành cho tài khoản vip');
         }
     };
-    return data.length === 0 ? (
+    return isLoading ? (
         <Loading />
     ) : (
         <div className={cx('wrapper')}>
@@ -52,12 +54,12 @@ function Home() {
                     (playlist, index) =>
                         playlist.sectionType === 'new-release' && (
                             <Section key={index} title={playlist.title} vertical>
-                                {playlist.items[0].song.map((item, index) => (
+                                {playlist.items.vPop.map((item, index) => (
                                     <SongItem
                                         key={item.encodeId}
                                         data={item}
                                         index={index}
-                                        playlist={playlist.items[0].song}
+                                        playlist={playlist.items.vPop}
                                         horizontal
                                         onDoubleClick={() => handlePlaySong(item, playlist.items[0].song, index)}
                                         hideIndex
