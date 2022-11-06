@@ -1,0 +1,39 @@
+.wrapper {
+    width: 33%;
+    height: 486px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.container {
+    border-radius: 12px;
+    background-color: #ffffff0d;
+    padding: 20px 10px;
+    height: 486px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.header {
+    margin-bottom: 34px;
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.btn {
+    background-color: transparent !important;
+    width: 32px;
+    height: 32px;
+    margin-left: 4px;
+}
+.icon {
+    width: 32px;
+    height: 32px;
+    color: var(--purple-primary);
+}

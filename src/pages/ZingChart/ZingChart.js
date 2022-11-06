@@ -10,15 +10,16 @@ import { PlayIcon } from '~/components/icons';
 import SongItem from '~/components/SongItem';
 import Loading from '~/components/Loading';
 import { audioSlice } from '~/redux/features/audioSlice';
+import WeekChartItem from '~/components/WeekChartItem';
 
 const cx = classNames.bind(styles);
 function ZingChart() {
     const [data, setData] = useState({});
+    console.log(data.weekChart);
     const [isAll, setIsAll] = useState(false);
     const [loading, setLoading] = useState(true);
     const [topSong, setTopSong] = useState([]);
     const dispatch = useDispatch();
-    console.log(data);
     useEffect(() => {
         request.get('/chart/home').then((res) => {
             setData(res.data.data);
@@ -81,6 +82,16 @@ function ZingChart() {
                         Xem top 100
                     </Button>
                 )}
+            </div>
+            <div className={cx('week-chart')}>
+                <div className={cx('header')}>
+                    <p className={cx('title')}>Bảng Xếp Hàng Tuần</p>
+                </div>
+                <div className={cx('week-chart-list')}>
+                    {Object.keys(data?.weekChart).map((key, index) => (
+                        <WeekChartItem key={index} data={data.weekChart[key]} title={key} />
+                    ))}
+                </div>
             </div>
         </div>
     );
