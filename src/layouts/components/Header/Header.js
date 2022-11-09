@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { useState } from 'react';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '~/components/Button';
 import styles from './Header.module.scss';
@@ -25,8 +27,13 @@ import {
 } from '~/components/icons';
 import Image from '~/components/Image';
 import Menu from '~/components/Popper/Menu';
+import initializeAuthentication from '~/firebase/firebase.init';
+import { userSlide } from '~/redux/features/userSlide';
+
+initializeAuthentication();
 
 const cx = classNames.bind(styles);
+const provider = new GoogleAuthProvider();
 
 const MENU_ITEMS = [
     {
@@ -67,9 +74,20 @@ const MENU_ITEMS = [
 ];
 function Header() {
     const [showMenu, setShowMenu] = useState(false);
+    const userActived = useSelector((state) => state.user.activeUser);
+    const imageUserActive = useSelector((state) => state.user.imageThumb);
+    const name = useSelector((state) => state.user.name);
+    const dispatch = useDispatch();
 
     const handleShowMenu = () => {
         setShowMenu(!showMenu);
+    };
+    const handleGoogleSignIn = () => {
+        const auth = getAuth();
+        signInWithPopup(auth, provider).then((res) => {
+            const user = res.user;
+            dispatch(userSlide.actions.setUser(user));
+        });
     };
     return (
         <div className={cx('wrapper')}>
@@ -106,8 +124,15 @@ function Header() {
                             </Button>
                         </Tippy>
                     </Menu>
-                    <Button className={cx('btn')} primary>
-                        <Image src="https://avatars.githubusercontent.com/u/106475471?v=4" alt="VanGiang" />
+                    <Button className={cx('btn')} primary onClick={handleGoogleSignIn}>
+                        {userActived ? (
+                            <Image src={imageUserActive} alt={name} />
+                        ) : (
+                            <Image
+                                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                alt="_BlankUser"
+                            />
+                        )}
                     </Button>
                 </div>
             </div>
