@@ -1,7 +1,8 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
 import styles from './Sidebar.module.scss';
 import images from '~/assets/images';
@@ -19,10 +20,26 @@ import {
     StarIcon,
 } from '~/components/icons';
 import Button from '~/components/Button';
+import { userSlide } from '~/redux/features/userSlide';
+import initializeAuthentication from '~/firebase/firebase.init';
 
 const cx = classNames.bind(styles);
+initializeAuthentication();
+
+const provider = new GoogleAuthProvider();
 function Sidebar() {
     const activeUser = useSelector((state) => state.user.activeUser);
+    const dispatch = useDispatch();
+    const handleSignInGoogle = () => {
+        const auth = getAuth();
+
+        signInWithPopup(auth, provider)
+            .then((res) => {
+                const user = res.user;
+                dispatch(userSlide.actions.setUser(user));
+            })
+            .catch((error) => console.error(error));
+    };
     return (
         <aside className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -31,7 +48,11 @@ function Sidebar() {
                 </div>
                 <div className={cx('menu')}>
                     <Menu>
-                        <MenuItem to={config.myMusic} title="Cá nhân" icon={<BoxIcon />} />
+                        {activeUser ? (
+                            <MenuItem to={config.myMusic} title="Cá nhân" icon={<BoxIcon />} />
+                        ) : (
+                            <MenuItem title="Cá nhân" icon={<BoxIcon />} button onClick={handleSignInGoogle} />
+                        )}
                         <MenuItem to={config.home} title="Khám phá" icon={<RecordIcon />} end />
                         <MenuItem to={config.zingChart} title="#zingchart" icon={<ChartIcon />} />
                         <MenuItem to={config.radio} title="Radio" icon={<RadioIcon />} />

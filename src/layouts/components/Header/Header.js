@@ -24,6 +24,7 @@ import {
     RectangleADIcon,
     FileIcon,
     SecurityIcon,
+    SignOutIcon,
 } from '~/components/icons';
 import Image from '~/components/Image';
 import Menu from '~/components/Popper/Menu';
@@ -72,8 +73,21 @@ const MENU_ITEMS = [
         title: 'Chính sách bảo mật',
     },
 ];
+
+const MENU_SETTING_ACCOUNT_ITEMS = [
+    {
+        iconLeft: <DiamondIcon />,
+        title: 'Nâng cấp VIP ',
+    },
+    {
+        iconLeft: <SignOutIcon />,
+        title: 'Đăng xuất',
+        type: 'fistFooter',
+    },
+];
 function Header() {
     const [showMenu, setShowMenu] = useState(false);
+    const [showMenuInformationAccount, setShowMenuInformationAccount] = useState(false);
     const userActived = useSelector((state) => state.user.activeUser);
     const imageUserActive = useSelector((state) => state.user.imageThumb);
     const name = useSelector((state) => state.user.name);
@@ -82,12 +96,18 @@ function Header() {
     const handleShowMenu = () => {
         setShowMenu(!showMenu);
     };
+
+    const handleShowMenuInformationAccount = () => {
+        setShowMenuInformationAccount(!showMenuInformationAccount);
+    };
     const handleGoogleSignIn = () => {
         const auth = getAuth();
-        signInWithPopup(auth, provider).then((res) => {
-            const user = res.user;
-            dispatch(userSlide.actions.setUser(user));
-        });
+        signInWithPopup(auth, provider)
+            .then((res) => {
+                const user = res.user;
+                dispatch(userSlide.actions.setUser(user));
+            })
+            .catch((error) => console.error(error));
     };
     return (
         <div className={cx('wrapper')}>
@@ -124,16 +144,20 @@ function Header() {
                             </Button>
                         </Tippy>
                     </Menu>
-                    <Button className={cx('btn')} primary onClick={handleGoogleSignIn}>
-                        {userActived ? (
-                            <Image src={imageUserActive} alt={name} />
-                        ) : (
+                    {userActived ? (
+                        <Menu items={MENU_SETTING_ACCOUNT_ITEMS} visible={showMenuInformationAccount} onClickOutside>
+                            <Button className={cx('btn')} primary onClick={handleShowMenuInformationAccount}>
+                                <Image src={imageUserActive} alt={name} />
+                            </Button>
+                        </Menu>
+                    ) : (
+                        <Button className={cx('btn')} primary onClick={handleGoogleSignIn}>
                             <Image
                                 src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                                 alt="_BlankUser"
                             />
-                        )}
-                    </Button>
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>

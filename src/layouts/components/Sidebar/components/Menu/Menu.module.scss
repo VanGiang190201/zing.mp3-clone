@@ -33,3 +33,21 @@
     display: flex;
     margin-left: 4px;
 }
+
+//Menu Item Cá nhân khi chưa đăng nhập
+
+.button {
+    color: #dadada;
+    width: 100%;
+    padding: 8px 25px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    border-left: 4px solid transparent !important;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+        color: #fff;
+    }
+}
